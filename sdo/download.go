@@ -47,7 +47,7 @@ func (download Download) Do(bus *can.Bus) error {
 			data = buf.Bytes()
 		}
 	} else {
-		n = byte(size)
+		n = byte(4 - size)
 	}
 
 	bytes := []byte{
