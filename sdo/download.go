@@ -5,10 +5,11 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"github.com/brutella/can"
-	"github.com/brutella/canopen"
 	"log"
 	"time"
+
+	"github.com/brutella/can"
+	"github.com/brutella/canopen"
 )
 
 const (
