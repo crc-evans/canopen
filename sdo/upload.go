@@ -5,7 +5,6 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/brutella/can"
@@ -98,7 +97,7 @@ func (upload Upload) Do(bus *can.Bus) ([]byte, error) {
 		req = canopen.NewRequest(frame, uint32(upload.ResponseCobID))
 		resp, err = c.Do(req)
 		if err != nil {
-			log.Fatal(err)
+			return buf.Bytes(), fmt.Errorf("segment upload incomplete: %v", err)
 		}
 
 		// Segment response

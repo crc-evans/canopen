@@ -106,7 +106,7 @@ func (download Download) Do(bus *can.Bus) error {
 			resp, err = c.Do(req)
 
 			if err != nil {
-				return err
+				return fmt.Errorf("segment download incomplete: %v", err)
 			}
 
 			// Segment response
