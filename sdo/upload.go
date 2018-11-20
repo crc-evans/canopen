@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"errors"
+	"fmt"
 	"log"
 	"time"
 
@@ -44,7 +45,6 @@ func (upload Upload) Do(bus *can.Bus) ([]byte, error) {
 	req := canopen.NewRequest(frame, uint32(upload.ResponseCobID))
 	resp, err := c.Do(req)
 	if err != nil {
-		log.Print(err)
 		return nil, err
 	}
 
@@ -57,7 +57,7 @@ func (upload Upload) Do(bus *can.Bus) ([]byte, error) {
 	case TransferAbort:
 		return nil, errors.New("Server aborted upload")
 	default:
-		log.Fatalf("Unexpected server command specifier %X", scs)
+		return nil, fmt.Errorf("Unexpected server command specifier %X", scs)
 	}
 
 	if isExpedited(frame) {

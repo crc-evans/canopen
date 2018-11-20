@@ -5,7 +5,6 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/brutella/can"
@@ -66,7 +65,6 @@ func (download Download) Do(bus *can.Bus) error {
 	req := canopen.NewRequest(frame, uint32(download.ResponseCobID))
 	resp, err := c.Do(req)
 	if err != nil {
-		log.Print(err)
 		return err
 	}
 
@@ -79,7 +77,7 @@ func (download Download) Do(bus *can.Bus) error {
 	case TransferAbort:
 		return errors.New("Server aborted download")
 	default:
-		log.Fatalf("Unexpected server command specifier %X", scs)
+		return fmt.Errorf("Unexpected server command specifier %X", scs)
 	}
 
 	if e == 0 {
