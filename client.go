@@ -1,6 +1,7 @@
 package canopen
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/brutella/can"
@@ -13,14 +14,16 @@ type Client struct {
 	Timeout time.Duration
 }
 
-// Do sends a request and waits for a response.
+// Do sends a request and waits for a response. It uses a custom CAN frame filter.
 // If the response frame doesn't arrive on time, an error is returned.
 func (c *Client) Do(req *Request) (*Response, error) {
-	ch := can.Wait(c.Bus, req.ResponseID, c.Timeout)
+	ch := can.WaitFunc(c.Bus, req.FilterFunc, c.Timeout)
 	if err := c.Bus.Publish(req.Frame.CANFrame()); err != nil {
 		return nil, err
 	}
 	resp := <-ch
-
-	return &Response{CANopenFrame(resp.Frame), req}, resp.Err
+	if resp.Err != nil {
+		return nil, fmt.Errorf("request Cob ID %#v failed: %v", req.Frame.CobID, resp.Err)
+	}
+	return &Response{CANopenFrame(resp.Frame), req}, nil
 }
