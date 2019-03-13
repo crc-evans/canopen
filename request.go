@@ -1,8 +1,6 @@
 package canopen
 
 import (
-	"encoding/binary"
-
 	"github.com/brutella/can"
 )
 
@@ -25,17 +23,5 @@ func NewRequest(frm Frame, respID uint32) *Request {
 }
 
 func sdoFilter(req Frame, respID uint32) func(can.Frame) bool {
-	return func(frm can.Frame) bool {
-		if respID != frm.ID {
-			return false
-		}
-		reqData := req.Data
-		frmData := frm.Data
-		reqIndex, reqSubindex := binary.LittleEndian.Uint16(reqData[1:3]), reqData[3]
-		frmIndex, frmSubindex := binary.LittleEndian.Uint16(frmData[1:3]), frmData[3]
-		if frmIndex != reqIndex || frmSubindex != reqSubindex {
-			return false
-		}
-		return true
-	}
+	return func(frm can.Frame) bool { return respID == frm.ID }
 }
