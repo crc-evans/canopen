@@ -95,6 +95,12 @@ func (download Download) Do(bus *can.Bus) error {
 			// is last segmented
 			if i == len(junks)-1 {
 				cmd |= 0x1
+				n := byte(7 - len(junk)) // unused bytes
+				cmd |= n << 1
+				if n > 0 {
+					pad := make([]byte, n)
+					junk = append(junk, pad...)
+				}
 			}
 
 			frame = canopen.Frame{
