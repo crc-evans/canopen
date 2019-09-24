@@ -48,6 +48,8 @@ func (download Download) Do(bus *can.Bus) error {
 		}
 	} else {
 		n = byte(4 - size)
+		pad := make([]byte, n)
+		data = append(data, pad...)
 	}
 
 	bytes := []byte{
