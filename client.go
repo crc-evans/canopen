@@ -1,7 +1,6 @@
 package canopen
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/brutella/can"
@@ -23,7 +22,8 @@ func (c *Client) Do(req *Request) (*Response, error) {
 	}
 	resp := <-ch
 	if resp.Err != nil {
-		return nil, fmt.Errorf("request Cob ID %#v failed: %v", req.Frame.CobID, resp.Err)
+		// return nil, fmt.Errorf("request Cob ID %#v failed: %v", req.Frame.CobID, resp.Err)
+		return nil, resp.Err
 	}
 	return &Response{CANopenFrame(resp.Frame), req}, nil
 }
