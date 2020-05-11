@@ -3,7 +3,7 @@ package lss
 import (
 	"time"
 
-	"github.com/brutella/can"
+	"github.com/crc-evans/can"
 )
 
 const (

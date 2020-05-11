@@ -1,7 +1,7 @@
 package canopen
 
 import (
-	"github.com/brutella/can"
+	"github.com/crc-evans/can"
 )
 
 // A Request represents a CANopen request published on a CAN bus and received by another CANopen node.

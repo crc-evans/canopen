@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/brutella/can"
-	"github.com/brutella/canopen"
+	"github.com/crc-evans/can"
+	"github.com/crc-evans/canopen"
 )
 
 const (
